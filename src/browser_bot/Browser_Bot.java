@@ -40,7 +40,7 @@ public class Browser_Bot {
         String path = new File("browser.apk").getAbsolutePath();
         
         try {
-            _appiumController.AppiumDriverStart(path, new URL("http://127.0.0.1:4723/wd/hub"));
+            _appiumController.AppiumDriverStart(path, new URL("http://127.0.0.1:4723/wd/hub"),"'"+URL+"'");
         } catch (IOException ex) {
             Logger.getLogger(Browser_Bot.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,11 +50,11 @@ public class Browser_Bot {
         
         //_appiumController.getDriver().getKeyboard().sendKeys(4);
         //Thread.sleep(3000);
-        List<WebElement> textView = (List<WebElement>) _appiumController.getDriver().findElementsById("net.fast.web.browser:id/enterUrl");
-        textView.get(0).sendKeys(URL);
-         Thread.sleep(1000);
+        //List<WebElement> textView = (List<WebElement>) _appiumController.getDriver().findElementsById("net.fast.web.browser:id/enterUrl");
+        //textView.get(0).click();
+    //     Thread.sleep(1000);
         
-        _appiumController.getDriver().sendKeyEvent(66); //Press Enter
+      //  _appiumController.getDriver().sendKeyEvent(66); //Press Enter
         Thread LoaderThread = new Thread(new LoadingUpdater(_appiumController.getDriver())); 
         Thread.sleep(1000);
        
@@ -97,6 +97,8 @@ public class Browser_Bot {
     
     public static void PopupResolver(AndroidDriver ad) throws ParserConfigurationException, SAXException, IOException
     {
+          if (ad.currentActivity().equals("com.google.android.finsky.activities.MainActivity")){FinishTest = true;return;}
+          
         List<UI_component> comps =  new Layout_UI_Scrapper().XML_parser(ad.getPageSource());
         for (UI_component c : comps)
         {

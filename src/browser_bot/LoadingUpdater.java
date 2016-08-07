@@ -19,6 +19,7 @@ public class LoadingUpdater extends Thread{
     private AndroidDriver androidDriver = null;
     private String PreviousString = "-1";
     private boolean StopTimeArrived = false;
+    private int errorDepth =0;
     public LoadingUpdater(AndroidDriver ad)
      {androidDriver = ad; }
     
@@ -28,13 +29,13 @@ public class LoadingUpdater extends Thread{
         while(!StopTimeArrived)
         {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(2500);
             } catch (InterruptedException ex) {
                 Logger.getLogger(LoadingUpdater.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+            if (androidDriver.currentActivity().equals("com.google.android.finsky.activities.MainActivity")){destroy();}
             List<WebElement> textView = (List<WebElement>) androidDriver.findElementsById("net.fast.web.browser:id/enterUrl");
-            if(textView==null || textView.size()<1) destroy();
+            if(textView==null || textView.size()<1) {errorDepth++; if(errorDepth>3)destroy();}
             try
             {
             WebElement e = textView.get(0);
@@ -54,7 +55,7 @@ public class LoadingUpdater extends Thread{
             
             PreviousString = NewString;
             }
-            catch (Exception ex){destroy();}
+            catch (Exception ex){errorDepth++; if(errorDepth>3)destroy();}
             
                 
         }

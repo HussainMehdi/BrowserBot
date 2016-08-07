@@ -45,7 +45,7 @@ public class AppiumController {
      * @param WaitForActivity Start Driver and wait for other operations until that activity is not launched
      * @param Server_URL  URL where Appium Server is listening
      */
-     public void AppiumDriverStart(String AppPath,URL Server_URL) throws MalformedURLException, IOException
+     public void AppiumDriverStart(String AppPath,URL Server_URL, String Link) throws MalformedURLException, IOException
     {
        // WaitForActivity = null;
         
@@ -62,6 +62,7 @@ public class AppiumController {
         cap.setCapability(MobileCapabilityType.DEVICE_NAME, "");
        // cap.setCapability("udid", "emulator-5554");
         cap.setCapability(MobileCapabilityType.APP_WAIT_ACTIVITY, "www.ijoysoft.browser.activities.MainActivity");
+        cap.setCapability("optionalIntentArguments", Link);
         /*
         if (DeviceName!=null)
         {
